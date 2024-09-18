@@ -20,11 +20,6 @@ const config: Config = {
           "__Dancing_Script_Fallback_c729f9",
         ],
       },
-      // ...{
-      //   fontFamily:
-      //   fontWeight: 400,
-      //   fontStyle: "normal",
-      // },
     },
   },
   plugins: [],
