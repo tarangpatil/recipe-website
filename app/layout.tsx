@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased`}>
+      <body className={`min-h-screen`}>
         <header className="flex justify-between items-center py-4 px-8 bg-[#ffddd5]">
           <div className="flex items-center">
             <Image

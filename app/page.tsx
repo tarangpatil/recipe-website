@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Dancing_Script } from "next/font/google";
 import prisma from "./lib/prisma";
+import { redirect } from "next/navigation";
 
 const dancingScript = Dancing_Script({ weight: "400", subsets: ["latin"] });
 
 export default async function Home() {
+  redirect("/auth-page");
   const rec1 = await prisma.recipe.findMany({
     include: { ingredients: true, steps: true },
   });
