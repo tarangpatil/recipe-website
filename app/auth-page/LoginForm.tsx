@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import PasswordInput from "./PasswordInput";
+import { loginUser } from "../actions/user";
 type Props = {
   setVisiblePageLogin: (arg0: (prev: boolean) => boolean) => void;
 };
 export default function LoginForm({ setVisiblePageLogin }: Props) {
-  const [passVis, setPassVis] = useState(false);
   return (
     <div className="bg-[] w-full h-full">
-      <form className="flex flex-col justify-center items-center h-full">
+      <form
+        className="flex flex-col justify-center items-center h-full"
+        action={loginUser}
+      >
         <label htmlFor="email" className="w-1/2 my-2">
           Email
         </label>

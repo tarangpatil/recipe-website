@@ -2,17 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { Dancing_Script } from "next/font/google";
 import prisma from "./lib/prisma";
-import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 const dancingScript = Dancing_Script({ weight: "400", subsets: ["latin"] });
 
 export default async function Home() {
-  redirect("/auth-page");
+  const session = await auth();
+
   const rec1 = await prisma.recipe.findMany({
     include: { ingredients: true, steps: true },
   });
   return (
     <main className="flex flex-col justify-start min-h-screen items-start ">
+      {session ? (
+        <section className="mx-12 my-6 text-4xl font-dancing-script">
+          Welcome, {session.user?.name?.split(" ")[0]}
+        </section>
+      ) : (
+        ""
+      )}
       <section className="mx-12 my-6">
         <h3 className="text-xl font-dancing-script">Recently added</h3>
         <div className="flex w-full">

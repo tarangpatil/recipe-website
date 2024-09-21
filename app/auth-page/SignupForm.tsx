@@ -1,3 +1,4 @@
+import { createUser } from "../actions/user";
 import PasswordInput from "./PasswordInput";
 
 type Props = {
@@ -7,7 +8,10 @@ type Props = {
 export default function SignupForm({ setVisiblePageLogin }: Props) {
   return (
     <div className="bg-[] w-full h-full">
-      <form className="flex flex-col justify-center items-center h-full">
+      <form
+        className="flex flex-col justify-center items-center h-full"
+        action={createUser}
+      >
         <label htmlFor="name" className="w-1/2 my-2">
           Your Name:
         </label>

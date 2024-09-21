@@ -20,7 +20,6 @@ async function saveImageFile(file: File, type: "step" | "cover") {
 
   const i = imageCount[`${type}ImageCount`]++;
   await prisma.imageCount.update({ data: imageCount, where: { id: 1 } });
-  console.log(imageCount, i);
 
   const buffer = await file.arrayBuffer();
   const filePath = path.join(
