@@ -2,6 +2,7 @@ import prisma from "../lib/prisma";
 
 export type Recipe = {
   title: string;
+  authorId: number;
   description: string;
   coverImage: string | null;
   ingredients: { item: string; quantity: string }[];
@@ -17,6 +18,7 @@ export async function createRecipe(recipe: Recipe) {
       title: recipe.title,
       description: recipe.description,
       coverImage: recipe.coverImage,
+      authorId: recipe.authorId,
     },
   });
 

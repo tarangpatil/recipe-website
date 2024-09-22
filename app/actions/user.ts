@@ -4,7 +4,8 @@ import { hash } from "bcryptjs";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import prisma from "../lib/prisma";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 const signInSchema = z.object({
   name: z
@@ -59,4 +60,10 @@ export async function loginUser(formData: FormData) {
   } catch (error) {
     console.error({ error });
   }
+}
+
+export async function logout(formData: FormData) {
+  await signOut();
+  revalidatePath("/");
+  redirect("/");
 }

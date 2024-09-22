@@ -5,6 +5,7 @@ import Logo from "@/public/logo.png";
 import { Dancing_Script } from "next/font/google";
 import Link from "next/link";
 import { auth } from "@/auth";
+import { logout } from "./actions/user";
 
 const dancingScript = Dancing_Script({
   weight: "400",
@@ -46,7 +47,11 @@ export default async function RootLayout({
               ""
             )}
             {session ? (
-              ""
+              <form action={logout}>
+                <button className="px-4 py-2 bg-custom-peach-dark text-white rounded-full">
+                  Logout
+                </button>
+              </form>
             ) : (
               <Link
                 href={"/auth-page"}

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import PasswordInput from "./PasswordInput";
 import { loginUser } from "../actions/user";

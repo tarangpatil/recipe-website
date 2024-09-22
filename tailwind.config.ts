@@ -13,6 +13,7 @@ const config: Config = {
         foreground: "var(--foreground)",
         "custom-peach": "#ffddd5",
         "custom-peach-dark": "#733729",
+        "google-blue": "#4285f4",
       },
       fontFamily: {
         "dancing-script": [

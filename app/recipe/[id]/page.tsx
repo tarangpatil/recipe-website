@@ -19,7 +19,7 @@ export default async function RecipeFull({ params }: Props) {
   const id = parseInt(idStr.split("-")[idStr.length - 1]);
   const recipe = await prisma.recipe.findUnique({
     where: { id },
-    include: { ingredients: true, steps: true },
+    include: { ingredients: true, steps: true, author: true },
   });
 
   if (!recipe) return redirect("/not-found");
@@ -27,6 +27,7 @@ export default async function RecipeFull({ params }: Props) {
   return (
     <main className="mx-96 my-10 ">
       <h1 className="font-dancing-script text-5xl">{recipe.title}</h1>
+      <p className="text-gray-500 my-2 px-4">Cooked by: {recipe.author.name}</p>
       <p className="text-gray-500 my-2 px-4">
         Updated on: {recipe.updatedAt.toISOString().split("T")[0]}
       </p>

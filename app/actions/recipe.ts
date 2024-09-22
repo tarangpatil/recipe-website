@@ -5,6 +5,7 @@ import { writeFile } from "fs/promises";
 import { createRecipe, Recipe } from "../models/recipe";
 import { redirect } from "next/navigation";
 import prisma from "../lib/prisma";
+import { auth } from "@/auth";
 
 function getExtension(filename: string) {
   let splitDots = filename.split(".");
@@ -33,6 +34,11 @@ async function saveImageFile(file: File, type: "step" | "cover") {
 }
 
 export async function createRecipeAction(formData: FormData) {
+  const session = await auth();
+  console.log(session);
+  if (!session) throw new Error("Login");
+  if (!session.user) throw new Error("Login");
+  if (!session.user.id) throw new Error("Login");
   const coverImage = formData.get("cover-image") as File;
   const coverImageName =
     coverImage.size === 0 ? null : await saveImageFile(coverImage, "cover");
@@ -43,6 +49,7 @@ export async function createRecipeAction(formData: FormData) {
     coverImage: coverImageName,
     ingredients: JSON.parse(formData.get("ingredients") as string),
     steps: JSON.parse(formData.get("steps") as string),
+    authorId: parseInt(session.user.id),
     stepImages: [],
   };
 

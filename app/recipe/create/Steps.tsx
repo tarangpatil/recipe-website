@@ -9,11 +9,7 @@ const dancingScript = Dancing_Script({
 });
 
 export default function Steps() {
-  const [steps, setSteps] = useState<string[]>([
-    "Heat milk",
-    "Add leaves",
-    "Eat tea",
-  ]);
+  const [steps, setSteps] = useState<string[]>([]);
   return (
     <div className="w-full min-h-14 mt-4 rounded-md">
       <input type="hidden" name="steps" value={JSON.stringify(steps)} />

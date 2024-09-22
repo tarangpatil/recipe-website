@@ -6,14 +6,13 @@ import Link from "next/link";
 import Steps from "./Steps";
 import { createRecipeAction } from "@/app/actions/recipe";
 import TextArea from "./TextArea";
-import { useEffect } from "react";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
   weight: "400",
 });
 
-export default function CreateNew() {
+export default async function CreateNew() {
   return (
     <main className="flex flex-col justify-start h-screen items-center">
       <div className="w-4/5">
@@ -32,7 +31,6 @@ export default function CreateNew() {
           type="text"
           id="title"
           name="title"
-          defaultValue={"Masala Chai"}
           className={`${dancingScript.className} w-full text-4xl border-2 rounded-lg px-4 py-2`}
           placeholder="Enter recipe name"
         />

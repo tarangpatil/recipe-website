@@ -13,6 +13,7 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+  Recipe    Recipe[]
 }
 
 model Recipe {
@@ -22,6 +23,8 @@ model Recipe {
   coverImage  String?      @db.VarChar(255)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now())
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    Int
   ingredients Ingredient[]
   steps       Step[]
 }

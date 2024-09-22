@@ -13,7 +13,7 @@ export default async function Home() {
     include: { ingredients: true, steps: true },
   });
   return (
-    <main className="flex flex-col justify-start min-h-screen items-start ">
+    <main className="flex flex-col justify-start min-h-[70vh] items-start ">
       {session ? (
         <section className="mx-12 my-6 text-4xl font-dancing-script">
           Welcome, {session.user?.name?.split(" ")[0]}
