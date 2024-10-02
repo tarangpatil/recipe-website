@@ -6,9 +6,10 @@ import { createRecipe, Recipe } from "../models/recipe";
 import { redirect } from "next/navigation";
 import prisma from "../lib/prisma";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 function getExtension(filename: string) {
-  let splitDots = filename.split(".");
+  const splitDots = filename.split(".");
   return splitDots[splitDots.length - 1];
 }
 
@@ -35,7 +36,7 @@ async function saveImageFile(file: File, type: "step" | "cover") {
 
 export async function createRecipeAction(formData: FormData) {
   const session = await auth();
-  console.log(session);
+
   if (!session) throw new Error("Login");
   if (!session.user) throw new Error("Login");
   if (!session.user.id) throw new Error("Login");
@@ -67,4 +68,18 @@ export async function createRecipeAction(formData: FormData) {
 
   const recipeInstance = await createRecipe(recipeObject);
   redirect(`/recipe/${recipeInstance.id}`);
+}
+
+export async function createComment(formData: FormData) {
+  const data = {
+    authorId: parseInt(formData.get("authorId") as string),
+    recipeId: parseInt(formData.get("recipeId") as string),
+    content: formData.get("content") as string,
+  };
+  const commentInstance = await prisma.comment.create({
+    data,
+    include: { recipe: true },
+  });
+  revalidatePath(`/recipe/${commentInstance.recipe.id}`);
+  redirect(`/recipe/${commentInstance.recipe.id}`);
 }

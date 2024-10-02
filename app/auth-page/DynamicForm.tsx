@@ -8,7 +8,7 @@ import SignupExtraDisplay from "./SignupExtraDisplay";
 export default function DynamicForm() {
   const [visiblePageLogin, setVisiblePageLogin] = useState<boolean>(true);
   return (
-    <div className="border-2 h-[60vh] mt-28 w-2/3 rounded-md flex overflow-hidden">
+    <div className="border-2 h-[70vh] mt-20 w-2/3 rounded-md flex overflow-hidden">
       <div className="relative h-full w-1/2  overflow-hidden">
         <SignupExtraDisplay />
         <div

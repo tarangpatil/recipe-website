@@ -8,12 +8,16 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  Recipe    Recipe[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  password     String
+  createdAt    DateTime       @default(now())
+  Recipe       Recipe[]
+  Comment      Comment[]
+  Reply        Reply[]
+  CommentLikes CommentLikes[]
+  ReplyLikes   ReplyLikes[]
 }
 
 model Recipe {
@@ -27,6 +31,7 @@ model Recipe {
   authorId    Int
   ingredients Ingredient[]
   steps       Step[]
+  Comment     Comment[]
 }
 
 model Ingredient {
@@ -51,4 +56,45 @@ model ImageCount {
   id              Int    @id @default(1)
   coverImageCount BigInt @default(0)
   stepImageCount  BigInt @default(0)
+}
+
+model Comment {
+  id           BigInt         @id @default(autoincrement())
+  content      String         @db.Text
+  author       User           @relation(references: [id], fields: [authorId], onDelete: Cascade)
+  authorId     Int
+  recipe       Recipe         @relation(references: [id], fields: [recipeId], onDelete: Cascade)
+  recipeId     Int
+  createAt     DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
+  replies      Reply[]
+  CommentLikes CommentLikes[]
+}
+
+model Reply {
+  id              BigInt       @id @default(autoincrement())
+  content         String       @db.Text
+  author          User         @relation(references: [id], fields: [authorId], onDelete: Cascade)
+  authorId        Int
+  parentComment   Comment      @relation(references: [id], fields: [parentCommentId], onDelete: Cascade)
+  parentCommentId BigInt
+  ReplyLikes      ReplyLikes[]
+}
+
+model CommentLikes {
+  liker     User    @relation(fields: [likerId], references: [id])
+  likerId   Int
+  comment   Comment @relation(fields: [commentId], references: [id])
+  commentId BigInt
+
+  @@id([commentId, likerId])
+}
+
+model ReplyLikes {
+  liker   User   @relation(fields: [likerId], references: [id])
+  likerId Int
+  reply   Reply  @relation(fields: [replyId], references: [id])
+  replyId BigInt
+
+  @@id([replyId, likerId])
 }

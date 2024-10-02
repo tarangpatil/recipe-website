@@ -3,6 +3,10 @@ import { Dancing_Script } from "next/font/google";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
+import { auth } from "@/auth";
+import TextArea from "../create/TextArea";
+import { createComment } from "@/app/actions/recipe";
+import Comments from "./Comments";
 
 const dancingScript = Dancing_Script({
   weight: "400",
@@ -23,10 +27,13 @@ export default async function RecipeFull({ params }: Props) {
   });
 
   if (!recipe) return redirect("/not-found");
+  const session = await auth();
 
   return (
-    <main className="mx-96 my-10 ">
-      <h1 className="font-dancing-script text-5xl">{recipe.title}</h1>
+    <main className="w-[90vw] mx-auto max-w-[750px] my-10 ">
+      <h1 className={dancingScript.className + " font-dancing-script text-5xl"}>
+        {recipe.title}
+      </h1>
       <p className="text-gray-500 my-2 px-4">Cooked by: {recipe.author.name}</p>
       <p className="text-gray-500 my-2 px-4">
         Updated on: {recipe.updatedAt.toISOString().split("T")[0]}
@@ -47,15 +54,15 @@ export default async function RecipeFull({ params }: Props) {
         <table className="w-full my-4">
           <thead>
             <tr>
-              <th className="text-left">Item</th>
-              <th className="text-left">Quantity</th>
+              <th className="text-left w-1/2">Item</th>
+              <th className="text-left w-1/2">Quantity</th>
             </tr>
           </thead>
           <tbody>
             {recipe.ingredients.map((ing, idx) => (
               <tr key={idx}>
-                <td className="">{ing.item}</td>
-                <td className="">{ing.quantity}</td>
+                <td className="text-left w-1/2">{ing.item}</td>
+                <td className="text-left w-1/2">{ing.quantity}</td>
               </tr>
             ))}
           </tbody>
@@ -81,6 +88,41 @@ export default async function RecipeFull({ params }: Props) {
           </div>
         ))}
       </article>
+      <section>
+        <h5 className="px-4 text-3xl font-dancing-script">Comments</h5>
+        {session && (
+          <form
+            className="bg-[] w-full flex flex-col items-center justify-center"
+            action={createComment}
+          >
+            <input type="hidden" name="recipeId" value={recipe.id} />
+            {session?.user?.id ? (
+              <input type="hidden" name="authorId" value={session.user.id} />
+            ) : (
+              ""
+            )}
+            <label
+              className="block w-full px-8 text-gray-500 mt-4 "
+              htmlFor="comment"
+            >
+              Write a comment:
+            </label>
+            <TextArea
+              placeholder="Eg. That's a great dish! I tried it."
+              className="w-[93%] border-2 rounded-lg px-4 py-2 resize-none overflow-y-hidden"
+              name="content"
+              minLength={5}
+            />
+            <div className="w-full">
+              <button className="mx-8 bg-custom-peach-dark text-white px-4 py-2 rounded-md mt-2 mb-8">
+                Post
+              </button>
+            </div>
+          </form>
+        )}
+      </section>
+      <hr />
+      <Comments recipeId={recipe.id} />
     </main>
   );
 }

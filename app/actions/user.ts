@@ -6,6 +6,7 @@ import { z } from "zod";
 import prisma from "../lib/prisma";
 import { signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { AuthError } from "next-auth";
 
 const signInSchema = z.object({
   name: z
@@ -23,14 +24,16 @@ const signInSchema = z.object({
   password: z.string().min(6, "Password should have atleast 6 characters"),
 });
 
-export async function createUser(formData: FormData) {
-  console.clear();
+export async function createUser(
+  prevState: { message: string } | null,
+  formData: FormData
+) {
   if (
     await prisma.user.findUnique({
       where: { email: formData.get("email") as string },
     })
   )
-    return redirect("/");
+    return { message: "User already exists" };
   const password = formData.get("password") as string;
   const pwHash = await hash(password, 10);
   const validatedFields = signInSchema.safeParse({
@@ -39,7 +42,7 @@ export async function createUser(formData: FormData) {
     password: formData.get("password"),
   });
   if (!validatedFields.success) return null;
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: { ...validatedFields.data, password: pwHash },
   });
   await signIn("credentials", {
@@ -47,22 +50,27 @@ export async function createUser(formData: FormData) {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   });
-  redirect("/");
+  return null;
 }
-export async function loginUser(formData: FormData) {
+
+export async function loginUser(
+  prevState: { message: string } | null | undefined,
+  formData: FormData
+) {
   try {
     await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: false,
     });
-    redirect("/");
+    return null;
   } catch (error) {
-    console.error({ error });
+    if (error instanceof AuthError)
+      return { message: "Account with this email does not exist" };
   }
 }
 
-export async function logout(formData: FormData) {
+export async function logout() {
   await signOut();
   revalidatePath("/");
   redirect("/");

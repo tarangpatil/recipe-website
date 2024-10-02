@@ -15,6 +15,8 @@ export default function PasswordInput() {
           name="password"
           className="w-full px-4 py-2 rounded"
           placeholder="secure-pass-123"
+          minLength={5}
+          required
         />
         {passVis ? (
           <FaEyeSlash

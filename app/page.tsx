@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col justify-start min-h-[70vh] items-start ">
       {session ? (
-        <section className="mx-12 my-6 text-4xl font-dancing-script">
+        <section className={"mx-12 my-6 text-4xl " + dancingScript.className}>
           Welcome, {session.user?.name?.split(" ")[0]}
         </section>
       ) : (

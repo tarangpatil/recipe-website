@@ -7,7 +7,7 @@ export default function notFound() {
   return (
     <main className="h-[70vh] relative">
       <h3 className="h-2/3 flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-8 font-dancing-script text-3xl z-10">
-        Oops! That dish ain't cooked yet :P
+        Oops! That dish ain&apos;t cooked yet :P
         <Link
           href={"/"}
           className="text-blue-900 underline hover:text-blue-600"

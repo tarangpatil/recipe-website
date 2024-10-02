@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import React, {  useRef, useState } from "react";
 
 type Props = {
   name?: string;
@@ -36,7 +37,7 @@ export default function ImageInput({
       />
       {file ? (
         <div className="w-4/5 flex flex-col justify-center items-end ">
-          <img
+          <Image
             src={URL.createObjectURL(file)}
             alt="Cover Image"
             className="py-4"

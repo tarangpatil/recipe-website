@@ -71,12 +71,12 @@ export default function Ingredients() {
         <button
           type="button"
           className="w-1/4 bg-[#741b07] text-white rounded-md px-2 py-1"
-          onClick={(e) => {
+          onClick={() => {
             setIngredients((prev) => [
               ...prev,
               { item: currentInput[0], quantity: currentInput[1] },
             ]);
-            //@ts-ignore
+            //@ts-expect-error: Should expect HTMLInputElement
             document.querySelector("input#ingredient-item-input").focus();
             setCurrentInput(["", ""]);
           }}

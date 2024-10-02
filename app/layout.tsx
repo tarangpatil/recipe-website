@@ -33,7 +33,9 @@ export default async function RootLayout({
               alt="Logo - Food item"
               className="h-12 w-auto mx-4"
             />
-            <h1 className="text-3xl font-dancing-script">CookerSpot</h1>
+            <h1 className={"text-3xl " + dancingScript.className}>
+              Cooks&apos; Spot
+            </h1>
           </Link>
           <div className="flex items-center">
             {session ? (

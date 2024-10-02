@@ -75,7 +75,7 @@ export default function Steps() {
         <button
           type="button"
           className="relative border z-20 bg-white shadow-md rounded-full px-6 py-2 text-lg"
-          onClick={(e) => setSteps((prev) => [...prev, ""])}
+          onClick={() => setSteps((prev) => [...prev, ""])}
         >
           Add step
         </button>

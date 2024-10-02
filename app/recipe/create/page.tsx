@@ -6,6 +6,8 @@ import Link from "next/link";
 import Steps from "./Steps";
 import { createRecipeAction } from "@/app/actions/recipe";
 import TextArea from "./TextArea";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -13,6 +15,7 @@ const dancingScript = Dancing_Script({
 });
 
 export default async function CreateNew() {
+  if (!(await auth())) return redirect("/auth-page");
   return (
     <main className="flex flex-col justify-start h-screen items-center">
       <div className="w-4/5">

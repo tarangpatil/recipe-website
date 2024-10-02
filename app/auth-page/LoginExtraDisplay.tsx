@@ -6,7 +6,7 @@ export default function LoginExtraDisplay() {
     <div className="h-full bg-[] flex flex-col pt-20 text-center">
       <h3 className="font-dancing-script text-4xl">Welcome Back Chef!</h3>
       <p className=" mt-6 text-2xl font-dancing-script">
-        Just gotta make sure it's you
+        Just gotta make sure it&apos;s you
       </p>
       <div className="mt-8">
         <p>Or login using one of these</p>
