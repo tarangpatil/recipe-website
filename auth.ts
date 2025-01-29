@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         });
-        if (!user) throw new Error("Shakalakabombom");
+        if (!user) throw new Error("user does not exist");
         const authorized = await compare(
           credentials.password as string,
           user.password
